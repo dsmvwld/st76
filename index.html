@@ -1,0 +1,79 @@
+<html><head><title>Bits Of History</title></head>
+<body>
+<center><h2>Bits Of History</h2>
+<small>as revived by Dan and Helge</small><p/>
+<img src="HaveFun.png" alt="Have fun."</img></center>
+<p/>
+<center>
+<a href="noplugin.html">Let me try with my Browser's built-in Java...</a><p/>
+<a href="plugin.html">Let me try with my Browser's JavaPlugin...</a><p/>
+<a href="license.html">Show me the license to hand me the Jar for offline use...</a>
+<p/>
+<i>last update: 16. September 2004 (version a9, see <a href="#latest">below</a>)</i>
+</center>
+
+<center><h4>Usage Notes</h4></center>
+<ul>
+<li>Please let it boot fully. It loads and compiles the system methods from a source file in the jar. Let it do its thing, then breathe again.
+<li>On the Mac, the command shortcut key is <i>COMMAND</i> in the application, but <i>CONTROL</i> in the applet. (Safari seems to &quot;capture&quot; the <i>COMMAND</i> key.) WinXP will use <i>CONTROL</i> in both application and applet.
+<li>Browsers can currently only be opened from the desktop popup menu (control-click on Macs, right-click on Windows). Inspectors can currently only be opened on "Inspect it" requests. The UI is not accessible from the Smalltalk side.
+<li><strong>There is no "save."</strong> There is no notion of a &quot;system image&quot;, nor can the applet file out methods. The applet (un-signed as it is) doesn't even put stuff on the system clipboard. So feel free to muck around in the applet, but grab the jar to be able to load files from your favourite Unicode-capable (i.e. UTF8-generating) text editor. The application can file out <i>methods</i> of a class (from the browser tool's class pane, press command-S) to the current directory.
+<li>Code entered in a Browser tool will be autoconverted (on accept) from Ersatz-Alto ASCII to Unicode: ^ to up-arrow, ? to implication, `  (backquote) to unary-minus, _ to left-arrow, ! to index-bullet, # to pointing-hand and @ to dotted-box. Open-colon is entered and displayed as a percent sign %. Some special characters don't have an ASCII equivalent, so if you need greater-or-equal, less-or-equal, not-equal, identical, peekFor (the eyeball, see class Stream) <small><small>and you're <i>not</i> using a Mac</small></small>, you'll have to copy/paste these characters from some existing method. The classes <tt>Integer</tt> and <tt>Stream</tt> are good places to dig.
+<li>When the dreaded red <b>Stepper</b> appears, try the <b><tt>help</tt></b> command. The Stepper is a command-driven bytecode-level debugger. If the cause displayed is just a "MessageNotUnderstood", you can check the call chain with the <b><tt>where</tt></b> command, and then cancel the whole evaluation thread with the <b><tt>qq</tt></b> command. The <b><tt>receiver</tt></b> command may be of limited use, as it would display the receiver of the <i>calling</i> context -- the failing receiver can be determined by displaying the stack frame using <b><tt>frame</tt></b>, and looking at the top of the stack, marked with an asterisk *. Only the terminally curious would also try <b><tt>dis</tt></b>.
+<li><strong>Loading code:</strong> Both application and applet can load from the jar, given <b><tt>Host load: 'jar:/source/file.utf.txt'</tt></b>. The Application can also load from the file system, just evaluate <b><tt>Host load: 'path/file.utf.txt'</tt></b>. Recommended code text encoding for files is UTF-8 (extension <tt>.utf.txt</tt>).
+Both application and applet can also load code from HTML pages via <tt>http</tt>, given <b><tt>Host load: 'http:/someserver/foo/bar.html'</tt></b>. Everything in <tt>&lt;PRE&gt;</tt> tags will be evaluated, anything else will be ignored. Note however that the applet won't be able to contact servers other than the one it "came from." (Sample page: <a href="signum.html">signum.html</a>)<br/>
+The Application will, on startup, automagically load a file named <b><tt>autoload.utf.txt</tt></b> (if present) from current directory, while the Applet understands a single <tt>&lt;PARAM name=&quot;load&quot; value=&quot;jar:/path/somefile.utf.txt&quot;&gt;</tt>.
+</ul>
+
+<center><h4>Customization Notes</h4></center>
+<ul>
+<li>The "Welcome" window contents are loaded from the jar (<tt>/source/welcome.rtf</tt>).
+<li>Preferences allow customization of fonts and colors: The defaults are in the jar, in the file <tt>st76.ini</tt>. Please review that file for preference names and value formats. The applet understands a single <tt>&lt;PARAM name=&quot;prefs&quot; value=&quot;<i>name</i>=<i>value</i>;<i>...</i>&quot;&gt;</tt> to override the jar's defaults selectively. The application will instead look for files <tt><b>.</b>st76.ini</tt> or <tt>st76.ini</tt> in that order, taking the first found. It will look for these files in the home directory, then in the current directory, and will load from both locations in that order.
+</ul>
+
+<center><h4>Known Bugs</h4></center>
+<ul>
+<li>There is no source-level debugger.
+<li>It's rather unfinished. So is the Java source code. I'd rather publish it when it has reached a &quot;presentable&quot; state. Since this is a hobby project, I beg your patience. For the moment, please enjoy the little toy as it is.
+<li>The browser tool does not refresh the class pane when new classes have been loaded. Please close the outdated one, and open a new one from the desktop popup menu.
+<li>Some methods in the system may be of historical interest, but they certainly don't work as expected in the simulated system. For example, Methods originally weren't members of class <tt>Method</tt> but <tt>String</tt>s, with the literal OOPs encoded after the header. Thus <tt>Context&gt;&gt;litof:</tt> is misleading. There are also no reference counts at all, so <tt>Object&gt;&gt;refct</tt> and <tt>Dictionary&gt;&gt;clean</tt> are misleading, too. And it can't enumerate <tt>#allInstances</tt>, even if the original could.
+<li>Some browser's Java runtime environments seemingly tend to wedge over time. (Could well be my fault, no accusation intended.) The browser then refuses to load the same applet that loaded perfectly (well, almost) two minutes ago, occasionally complaining about spurious missing methods during bootstrap. Sometimes it helps to reload the page, other times, the browser must be quit and fired up again. Once in a while, a browser may spontaneously decide to quit. Ouch.
+<li>Dazed and confused: Cross-browser, cross-platform applet popup menu handling seems to be a mess. Works okay in the Application. For the Applet, popups may be  used as a command key reference. If at all. We need help: Is there a workaround? (Funny enough, FireFox on WinXP seems to provide the most consistent appearance there.)
+</ul>
+
+<a name="latest"></a>
+<center><h4>Release Notes <small>version a9, 16sep04</small></h4></center>
+<ul>
+<li>Less disturbing error notification: notifier windows tell error cause and simple backtrace (instead of entering the Stepper window)
+<li>Enhanced stability and less flicker in Transcript output; it also scrolls to its last output now
+<li><tt>HasGUI</tt> and <tt>IsApplet</tt> boolean globals preset by the runtime engine, depending on how it was started; the <tt>st76.tools.Exec</tt> command-line script executor uses them to suppress boot messages (so the shell tool doesn't talk so much...)
+<li>If the first line of a script file starts with <tt>#!</tt>, that line is skipped (to allow for executable magic in Un*x, as in <tt>#!/usr/bin/env st76</tt>, with <tt>st76</tt> defined along the lines of <tt>java -cp st76a<i>N</i>.jar st76.tools.Exec $*</tt>)
+<li><tt>Turtle>>turnto:</tt> added to <tt>gfx.utf.txt</tt>
+<li><tt>postboot.utf.txt</tt> fixes omissions and allows access to Method bytecodes, literals, Context top-of-stack etc. Used in Smalltalk-level error reporting, the text in a MessageNotUnderstood notifier is actually created in <tt>Object&gt;&gt;error</tt>.
+</ul>
+
+<center><h4>Release Notes <small>version a8, 08sep04</small></h4></center>
+<ul>
+<li>Added preferences as described in the Customization Notes above.
+<li>The Browser tool has finally settled upon &quot;Serif&quot; as its font. In fact, Workspace have changed along. That font <i>should</i> provide all necessary glyphs across platforms. Sorry for the previous mess.
+<li>A handy <tt>rejar.sh</tt> script has been added to the jar to allow easy repackaging after unpacking (which seems easy enough with <tt>jar xf st76a8.jar</tt>) and customizing.
+<li>Finally seems to work okay on WinXP with IE6. (non-SP2'ed machine, Sun JRE 1.4.2)
+</ul>
+
+<center><h4>Previous Release Notes</h4></center>
+<ul>
+<li>added Color wheel support (with alpha) to Turtle
+<li>added Method class with accessors for introspection
+<li>fixed Undeclared handling and redeclaration of globals (<tt>Smalltalk define: #Foo as: 3+4</tt>).
+<li>fixed <tt>Turtle&gt;&gt;north</tt> to not point southwards. :-)
+<li>added <tt>over</tt> command to Stepper, to step over sends.
+</ul>
+
+<center><h4>Contact</h4></center>
+<center><img src="mailto.png" alt="contact"</img></center>
+<ul>
+<li>Please mention "Smalltalk-76" or "Smalltalk76" somewhere in the subject.
+</ul>
+
+</body>
+</html>
